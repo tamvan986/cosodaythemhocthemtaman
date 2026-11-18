@@ -110,6 +110,15 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--teal2);color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.25);display:none;z-index:200}
 .hidden{display:none!important}
 @media(max-width:640px){.hero h1{font-size:23px}.topbar .wrap{gap:8px}nav.mainnav{margin-left:0}}
+/* register */
+.reg-intro{background:linear-gradient(120deg,#e8f5f4,#fff8e9);border:1px solid #bddbd9;border-radius:14px;padding:20px;margin-bottom:16px}
+.reg-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(250px,.8fr);gap:16px}
+.reg-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+.reg-fields input,.reg-fields select,.reg-fields textarea{width:100%}
+.reg-full{grid-column:1/-1}
+.reg-help{font-size:12px;color:var(--mut);margin-top:5px}
+.reg-status{padding:14px;border-radius:10px;background:#e6f5ed;color:#145d3a;border:1px solid #abddbf;margin-top:14px}
+@media(max-width:750px){.reg-layout,.reg-fields{grid-template-columns:1fr}}
 /* print */
 #printArea{display:none}
 @media print{
@@ -137,8 +146,8 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
       <a href="#tkb" data-nav="tkb">Thời khóa biểu</a>
       <a href="#giaovien" data-nav="giaovien">Giáo viên</a>
       <a href="#hocsinh" data-nav="hocsinh">Danh sách học sinh</a>
+       <a href="#dangky" data-nav="dangky">📝 Đăng ký học</a>
       <a href="#kehoach" data-nav="kehoach">Kế hoạch dạy học</a>
-       <a href="#dangky" data-nav="dangky">Đăng ký học</a>
       <a href="#" id="navAdmin">Quản trị</a>
     </nav>
   </div>
@@ -152,7 +161,7 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
         <p id="heroSub">Công khai thông tin tuyển sinh các khóa học thêm theo Thông tư số 29/2024/TT-BGDĐT của Bộ Giáo dục và Đào tạo.</p>
         <div class="stats" id="heroStats"></div>
         <div class="cta">
-          <a class="btn amber" href="#hocsinh">Xem danh sách học sinh</a>
+          <a class="btn amber" href="#dangky">Đăng ký học ngay</a>
           <a class="btn ghost" href="#kehoach" style="background:transparent;color:#fff;border-color:#fff">Kế hoạch dạy học theo tháng</a>
         </div>
       </div>
@@ -205,6 +214,42 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
       <div id="pubRoster"></div>
     </section>
 
+    <section class="blk" id="dangky">
+      <h2>Đăng ký học thêm trực tuyến</h2>
+      <p class="sub">Học sinh hoặc phụ huynh chọn lớp học phù hợp và điền thông tin đăng ký.</p>
+      <div class="reg-intro">
+        <h3 style="color:var(--teal2);margin-bottom:5px">📚 Đăng ký lớp học tại Tâm An</h3>
+        <p>Vui lòng chọn môn, lớp học và cung cấp thông tin liên hệ chính xác. Đơn đăng ký cần được cơ sở xác nhận trước khi xếp lớp.</p>
+      </div>
+      <div class="reg-layout">
+        <div class="card">
+          <h3 style="color:var(--teal2)">Phiếu đăng ký học</h3>
+          <form id="regForm" onsubmit="submitRegistration(event)">
+            <div class="reg-fields">
+              <div class="reg-full"><label class="lb" for="regClass">Lớp học muốn đăng ký *</label><select id="regClass" class="big" required onchange="showRegClassInfo()"></select><div id="regClassInfo" class="reg-help"></div></div>
+              <div><label class="lb" for="regName">Họ và tên học sinh *</label><input id="regName" required maxlength="100" autocomplete="name" placeholder="Nguyễn Văn A"></div>
+              <div><label class="lb" for="regGrade">Lớp đang học *</label><input id="regGrade" required maxlength="30" placeholder="Ví dụ: 12A1"></div>
+              <div><label class="lb" for="regSchool">Trường đang học *</label><input id="regSchool" required maxlength="150" placeholder="Tên trường học"></div>
+              <div><label class="lb" for="regPhone">Số điện thoại liên hệ *</label><input id="regPhone" type="tel" inputmode="tel" required maxlength="16" pattern="[0-9+ .-]{9,16}" placeholder="09xxxxxxxx"></div>
+              <div><label class="lb" for="regParent">Họ tên phụ huynh/người giám hộ</label><input id="regParent" maxlength="100"></div>
+              <div><label class="lb" for="regEmail">Email liên hệ (nếu có)</label><input id="regEmail" type="email" maxlength="120" placeholder="email@example.com"></div>
+              <div class="reg-full"><label class="lb" for="regTeacher">Giáo viên chính khóa (nếu có)</label><input id="regTeacher" maxlength="120"></div>
+              <div class="reg-full"><label class="lb" for="regNote">Ghi chú / nguyện vọng</label><textarea id="regNote" rows="3" maxlength="500" placeholder="Giờ học mong muốn, thông tin cần trao đổi..."></textarea></div>
+              <div class="reg-full" style="margin:13px 0"><label style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px"><input id="regConsent" type="checkbox" required style="margin-top:3px;flex-shrink:0"> <span>Tôi đồng ý cung cấp thông tin trên để cơ sở liên hệ tư vấn và xử lý đăng ký học. *</span></label></div>
+            </div>
+            <button type="submit" class="btn amber" style="padding:12px 22px">Gửi phiếu đăng ký</button>
+            <div id="regResult" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+        <aside class="card">
+          <h3 style="color:var(--teal2)">Thông tin tuyển sinh</h3>
+          <div id="regContact" style="margin:12px 0"></div>
+          <p class="note"><b>Lưu ý về bản HTML:</b> Phiếu hiện được lưu trên <b>thiết bị/trình duyệt đang sử dụng</b>, chưa tự chuyển đến máy quản trị. Để nhận đăng ký từ nhiều thiết bị trên internet, cần kết nối máy chủ hoặc Google Sheets/Firebase.</p>
+          <p style="margin-top:12px" class="mut">Không tự động công khai số điện thoại hoặc thông tin phụ huynh trong danh sách học sinh.</p>
+        </aside>
+      </div>
+    </section>
+
     <section class="blk" id="kehoach">
       <h2>Kế hoạch dạy học theo tháng</h2>
       <p class="sub">Kế hoạch dạy kèm cả năm học 2026–2027: mỗi tháng 8 buổi, mỗi buổi 2 tiết, bám sát tiến độ chương trình ở trường phổ thông.</p>
@@ -217,49 +262,7 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
       <div class="card" style="overflow-x:auto"><div id="planBody"></div></div>
     </section>
   </div>
-<section class="blk" id="dangky">
-  <div class="wrap2">
-    <h2>📝 Đăng ký học tập</h2>
-    <p class="sub">Phụ huynh và học sinh vui lòng điền thông tin dưới đây để đăng ký các khóa học tại cơ sở.</p>
-    
-    <div class="card">
-      <form action="#" method="POST">
-        <div class="grid c2">
-          <div>
-            <label class="lb" for="hoTen">Họ và tên học sinh *</label>
-            <input type="text" id="hoTen" name="hoTen" class="big" placeholder="Nhập họ và tên..." required style="width: 100%;">
-          </div>
-          <div>
-            <label class="lb" for="dienThoai">Số điện thoại liên hệ *</label>
-            <input type="tel" id="dienThoai" name="dienThoai" class="big" placeholder="Nhập số điện thoại..." required style="width: 100%;">
-          </div>
-        </div>
-        
-        <div style="margin-top: 14px;">
-          <label class="lb" for="khoaHoc">Khóa học đăng ký *</label>
-          <select id="khoaHoc" name="khoaHoc" class="big" required style="width: 100%;">
-            <option value="">-- Chọn môn học / lớp học --</option>
-            <option value="toan12">Toán 12 - Luyện thi THPT Quốc gia</option>
-            <option value="van12">Ngữ Văn 12 - Luyện thi THPT Quốc gia</option>
-            <option value="toan11">Toán 11</option>
-            <option value="van11">Ngữ Văn 11</option>
-            <option value="toan10">Toán 10</option>
-            <option value="van10">Ngữ Văn 10</option>
-          </select>
-        </div>
-        
-        <div style="margin-top: 14px;">
-          <label class="lb" for="ghiChu">Ghi chú thêm</label>
-          <textarea id="ghiChu" name="ghiChu" rows="4" placeholder="Nhập mong muốn, nguyện vọng hoặc câu hỏi của bạn..." style="width: 100%;"></textarea>
-        </div>
-        
-        <div style="margin-top: 20px; text-align: right;">
-          <button type="submit" class="btn amber big">Gửi thông tin đăng ký</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
+
   <footer>
     <div class="wrap">
       <b id="ftName">Hộ kinh doanh cơ sở dạy thêm học thêm Tâm An</b><br>
@@ -273,6 +276,7 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
   <div class="adminbar"><div class="wrap" id="adminTabs">
     <button data-tab="tongquan" class="on">Tổng quan</button>
     <button data-tab="lop">Lớp &amp; Học sinh</button>
+     <button data-tab="dangky">Đơn đăng ký <span id="regAdminCount"></span></button>
     <button data-tab="giaovien">Giáo viên</button>
     <button data-tab="kehoach">Kế hoạch dạy học</button>
     <button data-tab="tuyenduong">Tuyên dương</button>
@@ -375,6 +379,7 @@ function load(){
   }
   DB.classes.forEach(c => { if (c.mon === 'Tiếng Anh' && !c.soBuoi) c.soBuoi = 2; });
   if (!DB.honors) DB.honors = JSON.parse(JSON.stringify(SEED.honors || []));
+   if (!Array.isArray(DB.registrations)) DB.registrations = [];
   save();
 }
 const $ = id => document.getElementById(id);
@@ -408,7 +413,6 @@ function renderPublic(){
   const mons = [...new Set(DB.classes.map(c => c.mon))];
   $('heroStats').innerHTML =
     `<div class="stat"><b>${DB.classes.length}</b><span>lớp / nhóm học</span></div>` +
-    `<div class="stat"><b>${totalStudents()}</b><span>học sinh đăng ký</span></div>` +
     `<div class="stat"><b>${DB.teachers.length}</b><span>giáo viên</span></div>` +
     `<div class="stat"><b>${mons.length}</b><span>môn học: ${esc(mons.join(', '))}</span></div>` +
     `<div class="stat"><b>${fmtMoney(st.hocPhi)}đ</b><span>mức thu / học sinh</span></div>`;
@@ -439,6 +443,7 @@ function renderPublic(){
   renderPublicRoster();
   renderHonors();
   khInit();
+  renderRegistrationForm();
 }
 function rosterTable(c, forPrint){
   const head = `<tr><th class="num" style="width:42px">STT</th><th>Họ và tên người học</th><th>Lớp</th><th>Tên cơ sở giáo dục đang tham gia học tập</th><th>Tên giáo viên dạy thêm</th><th>Tên giáo viên dạy chính khóa</th>${forPrint ? '<th style="width:110px">Ký tên</th>' : ''}<th>Ghi chú</th></tr>`;
@@ -449,6 +454,64 @@ function renderPublicRoster(){
   const c = classById($('pubClassSel').value) || DB.classes[0];
   if (!c) { $('pubRoster').innerHTML = ''; return; }
   $('pubRoster').innerHTML = `<details class="cls" open><summary><span>${esc(c.ten)} — ${esc(c.mon)}${c.giaoVien ? ' · Giáo viên: ' + esc(c.giaoVien) : ''}</span><span class="tag">${c.hocSinh.length} học sinh</span></summary><div class="inner">${rosterTable(c, false)}</div></details>`;
+}
+
+/* ===== DANG KY HOC THEM: local-only storage ===== */
+function renderRegistrationForm(){
+  const sel=$('regClass'); if(!sel)return;
+  const old=sel.value;
+  sel.innerHTML='<option value="">— Chọn lớp muốn đăng ký —</option>'+DB.classes.map(c=>`<option value="${esc(c.id)}">${esc(c.ten)} — ${esc(c.mon)}${c.khoi?' (khối '+esc(c.khoi)+')':''}</option>`).join('');
+  if (old && classById(old)) sel.value=old;
+  showRegClassInfo();
+  $('regContact').innerHTML=`<p><b>Cơ sở:</b> ${esc(DB.settings.tenCoSo)}</p><p style="margin-top:8px"><b>Địa chỉ:</b> ${esc(DB.settings.diaChi)}</p><p style="margin-top:8px"><b>Điện thoại:</b> <a href="tel:${esc(String(DB.settings.dienThoai).replace(/[^+\d]/g,''))}">${esc(DB.settings.dienThoai)}</a></p><p style="margin-top:8px"><b>Học phí công khai:</b> ${fmtMoney(DB.settings.hocPhi)} đ/học sinh</p>`;
+}
+function showRegClassInfo(){
+  const c=classById($('regClass')?.value);
+  $('regClassInfo').textContent=c?('Lịch học: '+(c.lich||'Liên hệ cơ sở')+' | Giáo viên: '+(c.giaoVien||'Đang cập nhật')):'Chọn một lớp để xem lịch học và giáo viên.';
+}
+function submitRegistration(event){
+  event.preventDefault();const f=$('regForm');if(!f.reportValidity())return;
+  const cls=classById($('regClass').value);if(!cls){toast('Vui lòng chọn lớp học hợp lệ.');return;}
+  const g=id=>$(id).value.trim();
+  const phone=g('regPhone').replace(/[ .-]/g,'');
+  if(!/^\+?\d{9,12}$/.test(phone)){toast('Số điện thoại chưa hợp lệ.');$('regPhone').focus();return;}
+  const duplicate=DB.registrations.some(r=>r.classId===cls.id&&r.status==='pending'&&r.phone===phone&&r.hoTen.toLowerCase()===g('regName').toLowerCase());
+  if(duplicate){toast('Phiếu đăng ký này đang chờ xử lý trên thiết bị.');return;}
+  const record={id:uid('dk'),createdAt:new Date().toISOString(),classId:cls.id,className:cls.ten,subject:cls.mon,hoTen:g('regName'),lop:g('regGrade'),truong:g('regSchool'),phone,parent:g('regParent'),email:g('regEmail'),gvChinhKhoa:g('regTeacher'),ghiChu:g('regNote'),status:'pending'};
+  DB.registrations.push(record);save();f.reset();showRegClassInfo();
+  $('regResult').innerHTML=`<div class="reg-status"><b>Đã lưu phiếu đăng ký ${esc(record.id)} trên trình duyệt này.</b><div>Học sinh: ${esc(record.hoTen)} — Lớp đăng ký: ${esc(cls.ten)}.</div><div><b>Chưa gửi đến quản trị viên qua mạng.</b> Vui lòng liên hệ cơ sở qua số ${esc(DB.settings.dienThoai)} để xác nhận.</div></div>`;
+  toast('Đã lưu phiếu đăng ký trên thiết bị.');
+}
+function regStatusLabel(s){return s==='approved'?'Đã tiếp nhận':s==='rejected'?'Từ chối':'Chờ duyệt';}
+function admDangKy(){
+  const regs=DB.registrations||[]; const pending=regs.filter(r=>r.status==='pending').length;
+  $('adminBody').innerHTML=`<h2 style="color:var(--teal2)">Quản lý đơn đăng ký học</h2><p class="sub">${regs.length} phiếu đăng ký · ${pending} phiếu chờ duyệt. Dữ liệu chỉ thuộc trình duyệt hiện tại.</p>
+   <div class="card" style="margin:12px 0"><div class="flex spread"><div class="flex"><label for="regFilter">Trạng thái:</label><select id="regFilter" onchange="drawRegRows()"><option value="all">Tất cả</option><option value="pending">Chờ duyệt</option><option value="approved">Đã tiếp nhận</option><option value="rejected">Từ chối</option></select><input id="regSearch" placeholder="Tìm tên / điện thoại / lớp..." oninput="drawRegRows()"></div><button class="btn ghost" onclick="exportRegistrationsCSV()">Xuất danh sách CSV</button></div></div>
+   <div class="card" style="overflow-x:auto"><div id="regAdminRows"></div></div>
+   <p class="note" style="margin-top:12px">Khi <b>Tiếp nhận</b>, học sinh được thêm vào danh sách lớp nếu chưa có học sinh trùng tên, lớp và trường. Số điện thoại liên hệ chỉ nằm trong phần quản lý đơn đăng ký.</p>`;
+  drawRegRows();
+}
+function drawRegRows(){
+  const q=($('regSearch')?.value||'').trim().toLowerCase(),st=$('regFilter')?.value||'all';
+  const rows=(DB.registrations||[]).filter(r=>(st==='all'||r.status===st)&&(!q||[r.hoTen,r.phone,r.className,r.truong,r.lop].join(' ').toLowerCase().includes(q))).slice().reverse();
+  $('regAdminRows').innerHTML=`<table class="tb"><thead><tr><th>Ngày đăng ký</th><th>Học sinh / Trường</th><th>Lớp muốn học</th><th>Liên hệ</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(new Date(r.createdAt).toLocaleString('vi-VN'))}<div class="reg-help">${esc(r.id)}</div></td><td><b>${esc(r.hoTen)}</b><div>${esc(r.lop)} · ${esc(r.truong)}</div><div class="mut">GV chính khóa: ${esc(r.gvChinhKhoa||'—')}</div></td><td>${esc(classById(r.classId)?.ten||r.className||'—')}<div>${esc(r.subject||'')}</div></td><td><b>${esc(r.phone)}</b><div>${esc(r.parent||'')}</div><div>${esc(r.email||'')}</div><div class="mut">${esc(r.ghiChu||'')}</div></td><td><span class="tag ${r.status==='approved'?'free':r.status==='rejected'?'amber':''}">${regStatusLabel(r.status)}</span></td><td><div class="flex">${r.status==='pending'?`<button class="btn small" onclick="updateRegistration('${r.id}','approved')">Tiếp nhận</button><button class="btn small ghost" onclick="updateRegistration('${r.id}','rejected')">Từ chối</button>`:''}<button class="btn small danger" onclick="deleteRegistration('${r.id}')">Xóa</button></div></td></tr>`).join('')||'<tr><td colspan="6" class="mut">Chưa có phiếu đăng ký phù hợp.</td></tr>'}</tbody></table>`;
+}
+function updateRegistration(id,status){
+  const r=DB.registrations.find(x=>x.id===id);if(!r)return;
+  if(status==='approved'){
+    const c=classById(r.classId);if(!c){toast('Lớp học đã bị xóa; chưa thể tiếp nhận.');return;}
+    const dup=c.hocSinh.some(x=>x.hoTen.trim().toLowerCase()===r.hoTen.trim().toLowerCase()&&x.lop.trim().toLowerCase()===r.lop.trim().toLowerCase()&&x.truong.trim().toLowerCase()===r.truong.trim().toLowerCase());
+    if(!dup)c.hocSinh.push({id:uid('s'),hoTen:r.hoTen,lop:r.lop,truong:r.truong,gvChinhKhoa:r.gvChinhKhoa,ghiChu:r.ghiChu});
+  }
+  r.status=status;r.reviewedAt=new Date().toISOString();save();admDangKy();toast('Đã cập nhật trạng thái đăng ký.');
+}
+function deleteRegistration(id){if(!confirm('Xóa phiếu đăng ký này?'))return;DB.registrations=DB.registrations.filter(x=>x.id!==id);save();admDangKy();toast('Đã xóa phiếu đăng ký.');}
+function exportRegistrationsCSV(){
+  const cols=['createdAt','id','hoTen','lop','truong','className','subject','phone','parent','email','gvChinhKhoa','ghiChu','status'];
+  const header=['Ngày đăng ký','Mã phiếu','Họ tên','Lớp đang học','Trường','Lớp đăng ký','Môn','Điện thoại','Phụ huynh','Email','GV chính khóa','Ghi chú','Trạng thái'];
+  const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const csv='\uFEFF'+[header.map(quote).join(','),...(DB.registrations||[]).map(r=>cols.map(c=>quote(c==='status'?regStatusLabel(r[c]):r[c])).join(','))].join('\r\n');
+  const a=document.createElement('a');const u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.href=u;a.download='dang-ky-hoc-tam-an-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
 }
 
 /* ===== GOC TUYEN DUONG ===== */
@@ -569,7 +632,7 @@ $('adminTabs').addEventListener('click', e => {
   renderAdmin();
 });
 function renderAdmin(){
-  ({ tongquan: admTongQuan, lop: admLop, giaovien: admGiaoVien, kehoach: admKeHoach, tuyenduong: admTuyenDuong, diemdanh: admDiemDanh, hocphi: admHocPhi, caidat: admCaiDat })[adminTab]();
+  ({ tongquan: admTongQuan, lop: admLop, giaovien: admGiaoVien, kehoach: admKeHoach, tuyenduong: admTuyenDuong, dangky: admDangKy, diemdanh: admDiemDanh, hocphi: admHocPhi, caidat: admCaiDat })[adminTab]();
 }
 function classOptions(selId, val){
   return DB.classes.map(c => `<option value="${c.id}" ${c.id === val ? 'selected' : ''}>${esc(c.ten)} — ${esc(c.mon)} (${c.hocSinh.length} HS)</option>`).join('');
@@ -987,7 +1050,7 @@ function reseed(){
 }
 
 /* Moi muc la mot trang rieng: trang bia chi co phan gioi thieu gon, bam muc luc la mo dung trang do */
-const PAGES = ['trangchu', 'tuyenduong', 'congkhai', 'tkb', 'giaovien', 'hocsinh', 'kehoach'];
+const PAGES = ['trangchu', 'tuyenduong', 'congkhai', 'tkb', 'giaovien', 'hocsinh', 'dangky', 'kehoach'];
 function showPage(id){
   if (!PAGES.includes(id)) id = 'trangchu';
   PAGES.forEach(p => { const el = document.getElementById(p); if (el) el.classList.toggle('hidden', p !== id); });
