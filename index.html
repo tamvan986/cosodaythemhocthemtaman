@@ -217,7 +217,49 @@ input[type=checkbox].big{width:19px;height:19px;accent-color:var(--teal)}
       <div class="card" style="overflow-x:auto"><div id="planBody"></div></div>
     </section>
   </div>
-
+<section class="blk" id="dangky">
+  <div class="wrap2">
+    <h2>📝 Đăng ký học tập</h2>
+    <p class="sub">Phụ huynh và học sinh vui lòng điền thông tin dưới đây để đăng ký các khóa học tại cơ sở.</p>
+    
+    <div class="card">
+      <form action="#" method="POST">
+        <div class="grid c2">
+          <div>
+            <label class="lb" for="hoTen">Họ và tên học sinh *</label>
+            <input type="text" id="hoTen" name="hoTen" class="big" placeholder="Nhập họ và tên..." required style="width: 100%;">
+          </div>
+          <div>
+            <label class="lb" for="dienThoai">Số điện thoại liên hệ *</label>
+            <input type="tel" id="dienThoai" name="dienThoai" class="big" placeholder="Nhập số điện thoại..." required style="width: 100%;">
+          </div>
+        </div>
+        
+        <div style="margin-top: 14px;">
+          <label class="lb" for="khoaHoc">Khóa học đăng ký *</label>
+          <select id="khoaHoc" name="khoaHoc" class="big" required style="width: 100%;">
+            <option value="">-- Chọn môn học / lớp học --</option>
+            <option value="toan12">Toán 12 - Luyện thi THPT Quốc gia</option>
+            <option value="van12">Ngữ Văn 12 - Luyện thi THPT Quốc gia</option>
+            <option value="toan11">Toán 11</option>
+            <option value="van11">Ngữ Văn 11</option>
+            <option value="toan10">Toán 10</option>
+            <option value="van10">Ngữ Văn 10</option>
+          </select>
+        </div>
+        
+        <div style="margin-top: 14px;">
+          <label class="lb" for="ghiChu">Ghi chú thêm</label>
+          <textarea id="ghiChu" name="ghiChu" rows="4" placeholder="Nhập mong muốn, nguyện vọng hoặc câu hỏi của bạn..." style="width: 100%;"></textarea>
+        </div>
+        
+        <div style="margin-top: 20px; text-align: right;">
+          <button type="submit" class="btn amber big">Gửi thông tin đăng ký</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
   <footer>
     <div class="wrap">
       <b id="ftName">Hộ kinh doanh cơ sở dạy thêm học thêm Tâm An</b><br>
